@@ -4,11 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const connectionString = process.env.MONGO_CON 
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+//Get the default connection 
+var db = mongoose.connection; 
+ 
+//Bind connection to error event  
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); 
+db.once("open", function(){ 
+ console.log("Connection to DB succeeded")});
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var TabletRouter = require('./routes/Tablet');
 var AddModsRouter = require('./routes/addmods');
 var SelectorRouter = require('./routes/selector');
+var Tablet = require("./models/Tablet");
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -27,10 +40,38 @@ app.use('/users', usersRouter);
 app.use('/Tablet', TabletRouter);
 app.use('/addmods', AddModsRouter);
 app.use('/selector', SelectorRouter);
+app.use('/resource', resourceRouter);
+
+// We can seed the collection if needed on server start 
+async function recreateDB(){ 
+  // Delete everything 
+  await Tablet.deleteMany(); 
+ 
+  let instance1 = new Tablet({Tablet_type: 2.3,composition: "Android",Tablet_features:"LED"}); 
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+ 
+
+let instance2 = new Tablet({Tablet_type: 2.5,composition: "IOS",Tablet_features:"LCD"}); 
+instance2.save( function(err,doc) { 
+    if(err) return console.error(err); 
+    console.log("Second object saved") 
+});
+
+let instance3 = new Tablet({Tablet_type: 3.2,composition: "LINUX",Tablet_features:"LMD"}); 
+instance3.save( function(err,doc) { 
+    if(err) return console.error(err); 
+    console.log("Third object saved")
+});
+}
+let reseed = true; 
+if (reseed) { recreateDB();} 
+ 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
-});
+  next(createError(404));});
 
 // error handler
 app.use(function(err, req, res, next) {
