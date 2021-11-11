@@ -2,10 +2,10 @@ extends layout
 
 block content
   h1= title
-  - var results = [{Tablet_type: 2.3,composition: "Android",Tablet_features:"LED"},{Tablet_type: 2.5,composition: "IOS",Tablet_features:"LCD"},{Tablet_type: 3.2,composition: "LINUX",Tablet_features:"LMD"}];
+  - let items = results
    div(class = "container-fluid")
     div(class = "row")
-     each form, index in results
+     each form, index in items
         div(class="col-sm-4" onclick=`buy(${index})`) Tablet-type: #{form.Tablet_type} 
         br
         br 
