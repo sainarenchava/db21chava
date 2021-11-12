@@ -52,9 +52,25 @@ exports.Tablet_delete = function(req, res) {
 }; 
  
 // Handle Tablet update form on PUT. 
-exports.Tablet_update_put = function(req, res) { 
-    res.send('NOT IMPLEMENTED: Tablet update PUT' + req.params.id); 
-}; 
+exports.Tablet_update_put = async function(req, res) { 
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`) 
+    try { 
+        let toUpdate = await Tablet.findById( req.params.id) 
+        // Do updates of properties 
+        if(req.body.Tablet_type)  
+               toUpdate.Tablet_type = req.body.Tablet_type; 
+        if(req.body.cost) toUpdate.composition = req.body.composition; 
+        if(req.body.size) toUpdate.Tablet_features = req.body.Tablet_features; 
+        let result = await toUpdate.save(); 
+        console.log("Sucess " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`); 
+    } 
+};  
 
 // VIEWS 
 // Handle a show all view 
