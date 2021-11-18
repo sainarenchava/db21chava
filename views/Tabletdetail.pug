@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+
+  - let Tabletid = toShow._id
+  - let Tablet_type = toShow.Tablet_type
+  - let composition = toShow.composition
+  - let Tablet_features = toShow.Tablet_features
+  div 
+    div.row 
+      div(class='TabletAttr mr-3') Tablet ID is: 
+      div #{Tabletid} 
+    div.row 
+      div(class='TabletAttr mr-3') Tablet Type is: 
+      div #{Tablet_type} 
+    div.row 
+      div(class='TabletAttr mr-3') Tablet Size is: 
+      div #{composition} 
+    div.row 
+      div(class='TabletAttr mr-3') Tablet Cost is: 
+      div #{Tablet_features} 

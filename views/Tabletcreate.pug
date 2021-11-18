@@ -1,0 +1,34 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  form(id='TabletForm', action="/resource/Tablet", method="POST") 
+    div.form-group 
+        label.TabletAttr(for='Tablet_type') Tablet type 
+        input#Tablet_type(type='number', name='Tablet_type') 
+    div.form-group 
+        label.TabletAttr(for='composition') Tablet composition 
+        input#composition(type='text', name='composition') 
+    div.form-group 
+        label.TabletAttr(for='Tablet_features') Tablet features
+        input#Tablet_features(type='text', name='Tablet_features') 
+    input(type="submit") 
+ 
+  script. 
+    document.forms['TabletForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'POST', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Save succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Save failed " + error ) 
+      }); 
+    }); 
