@@ -1,22 +1,25 @@
 extends layout
 
 block content
-  h1= title
+  h1(class='text-center')= title
 
-  - let Tabletid = toShow._id
-  - let Tablet_type = toShow.Tablet_type
-  - let composition = toShow.composition
-  - let Tablet_features = toShow.Tablet_features
-  div
-    div.row 
-      div(class='TabletAttr mr-3') Tablet ID is: 
-      div #{Tabletid} 
-    div.row 
-      div(class='TabletAttr mr-3') Tablet Type is: 
-      div #{Tablet_type} 
-    div.row 
-      div(class='TabletAttr mr-3') Tablet composition is: 
-      div #{composition} 
-    div.row 
-      div(class='TabletAttr mr-3') Tablet features is: 
-      div #{Tablet_features} 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else
+    - let Tabletid = toShow._id
+    - let Tablet_type = toShow.Tablet_type
+    - let composition = toShow.composition
+    - let Tablet_features = toShow.Tablet_features
+    div(class='table table-primary table-striped') 
+        div(class='td') 
+        div(class='TabletAttr mr-3') Tablet ID is: 
+        div #{Tabletid} 
+        div(class='td')  
+        div(class='TabletAttr mr-3') Tablet Type is: 
+        div #{Tablet_type} 
+        div(class='td')  
+        div(class='TabletAttr mr-3') Tablet composition is: 
+        div #{composition} 
+        div(class='td')  
+        div(class='TabletAttr mr-3') Tablet features is: 
+        div #{Tablet_features} 
