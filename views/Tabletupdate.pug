@@ -1,0 +1,43 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let Tabletid = toShow._id 
+  - let Tablet_type = toShow.Tablet_type 
+  - let composition = toShow.composition 
+  - let Tablet_features = toShow.Tablet_features 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{Tabletid} 
+  - let actionid = "/resource/Tablet/" + Tabletid 
+  form(id='TabletForm', action= actionid, method="PUT") 
+    div.form-group 
+        label.TabletAttr(for='Tablet_type') Tablet type 
+        input#Tablet_type(type='text', name='Tablet_type', value= Tablet_type ) 
+    div.form-group 
+        label.TabletAttr(for='composition') Tablet composition 
+        input#composition(type='text', name='composition', value= composition ) 
+    div.form-group 
+        label.TabletAttr(for='Tablet_features') Tablet features 
+        input#Tablet_features(type='text', name='Tablet_features', value= Tablet_features ) 
+    input(type="submit") 
+ 
+  script. 
+    document.forms['TabletForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.text(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 
