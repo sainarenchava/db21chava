@@ -1,19 +1,22 @@
 extends layout
 
 block content
+
   h1= title
+  - let array=[{"Tablet_type":1,"composition":"Carbondioxide","Tablet_features":"white"},{"Tablet_type":2,"composition":"sodium","Tablet_features":"green"},{"Tablet_type":3,"composition":"Chlorine","Tablet_features":"black"}]
   - let items = results
-   div(class = "container-fluid")
-    div(class = "row")
-     each form, index in items
-        div(class="col-sm-4" onclick=`buy(${index})`) Tablet-type: #{form.Tablet_type} 
-        br
-        br 
-        div(class="col-sm-4" onclick=`buy(${index})`) composition: #{form.composition}
-        br
-        br  
-        div(class="col-sm-4" onclick=`buy(${index})`) Tablet_features: #{form.Tablet_features}
-        script.
-                function buy(itemNo){
-                    alert(`You purchased item ${itemNo+1}`)
-                }
+   div(class="container-fluid")
+    div(class="row m-1")
+     each item in array
+      - let destination = `dispatch(\"/Tablet/update?id=${item._id}\")`
+      div(class="col-sm-4",class="m-l") Table Type: #{item.Tablet_type}
+      div(class="col-sm-4",class="m-l") Composition: #{item.composition}
+      div(class="col-sm-4",class="m-l") Table Features #{item.Tablet_features}
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
+
+
+
+   script.
+     function dispatch(path){
+       window.location.href=path
+     }
