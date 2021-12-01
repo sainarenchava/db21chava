@@ -3,16 +3,20 @@ extends layout
 block content
 
   h1= title
-  - let array=[{"Tablet_type":1,"composition":"Carbondioxide","Tablet_features":"white"},{"Tablet_type":2,"composition":"sodium","Tablet_features":"green"},{"Tablet_type":3,"composition":"Chlorine","Tablet_features":"black"}]
+  p Welcome to #{title}
   - let items = results
    div(class="container-fluid")
     div(class="row m-1")
-     each item in array
+     each item in items
       - let destination = `dispatch(\"/Tablet/update?id=${item._id}\")`
-      div(class="col-sm-4",class="m-l") Table Type: #{item.Tablet_type}
-      div(class="col-sm-4",class="m-l") Composition: #{item.composition}
-      div(class="col-sm-4",class="m-l") Table Features #{item.Tablet_features}
-        button.btn( class="btn-primary ml-1", onclick= destination) Update
+      - let destination1 = `dispatch(\"/Season/create\")`
+      - let destination2 = `dispatch(\"/Season/detail?id=${item._id}\")`
+      - let destination3 = `dispatch(\"/Season/delete?id=${item._id}\")`
+      div(class="row-sm-2",class="m-l") Table Type: #{item.Tablet_type}(#{item.composition}) is #{item.Tablet_features} 
+        button.btn( class="btn-primary ml-1", onclick= destination1, style = "margin:7px;") Create
+          button.btn( class="btn-primary ml-1", onclick= destination, style = "margin:7px;" ) Update
+          button.btn( class="btn-primary ml-1", onclick= destination2, style = "margin:7px;" ) Detail
+          button.btn( class="btn-primary ml-1", onclick= destination3, style = "margin:7px;" ) Delete
 
 
 
